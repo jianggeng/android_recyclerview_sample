@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.jgeng.recyclerviewsample.MainActivity" >
+
+    <item android:id="@+id/action_recycler_view"
+          android:title="R 1"
+          android:orderInCategory="1"
+          app:showAsAction="always"
+          android:checkable="true"/>
+    <item android:id="@+id/action_recycler_view_2"
+          android:title="R 2"
+          android:orderInCategory="2"
+          app:showAsAction="always"
+          android:checkable="true"/>
+    <item android:id="@+id/action_list_view"
+          android:title="L"
+          android:orderInCategory="2"
+          app:showAsAction="always"
+          android:checkable="true"/>
+
+
+</menu>
