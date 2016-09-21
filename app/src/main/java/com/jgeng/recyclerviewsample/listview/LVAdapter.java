@@ -53,7 +53,7 @@ public class LVAdapter extends BaseAdapter implements AdapterView.OnItemClickLis
     if(isSelected(position)) {
       view.setBackgroundResource(R.color.colorAccent);
     } else {
-      view.setBackgroundResource(R.drawable.selectable_background);
+      view.setBackground(null);
     }
     return view;
   }

@@ -3,6 +3,7 @@ package com.jgeng.recyclerviewsample.recyclerview;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +23,8 @@ public class RecyclerViewFragment extends Fragment {
   public static final String TAG = "RecyclerViewFragment";
   public enum Style {
     Normal,
-    ItemDecoration
+    ItemDecoration,
+    GridView
   }
 
   private class Args {
@@ -58,42 +60,84 @@ public class RecyclerViewFragment extends Fragment {
         Toast.makeText(parent.getContext(), "item clicked " + position + " " + id, Toast.LENGTH_SHORT).show();
       }
     });
-    LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
-    view.setLayoutManager(lm);
     initViewForStyle(view, style);
     return view;
   }
 
+  private void addDivider(RecyclerView view) {
+    if (mDivider == null) {
+      mDivider = new DividerItemDecoration(getContext(), R.drawable.recycler_view_divider,
+          view.getContext().getResources().getDimensionPixelSize(R.dimen.vertical_margin));
+      view.addItemDecoration(mDivider);
+    }
+  }
+
+  private void removeDivider(RecyclerView view) {
+    if (mDivider != null) {
+      view.removeItemDecoration(mDivider);
+      mDivider = null;
+    }
+  }
+
+  private void addBackground(RecyclerView view) {
+    if (mBackground == null) {
+      mBackground = new BackgroundItemDecoration(view.getContext(),
+          R.drawable.selectable_background);
+      view.addItemDecoration(mBackground);
+    }
+  }
+
+  private void removeBackground(RecyclerView view) {
+    if (mBackground != null) {
+      view.removeItemDecoration(mBackground);
+      mBackground = null;
+    }
+  }
+
+  private void addVerticalSpace(RecyclerView view) {
+    if (mVerticalSpace == null) {
+      mVerticalSpace = new VerticalSpaceItemDecoration(view.getContext().getResources().getDimensionPixelSize(R.dimen.vertical_margin));
+      view.addItemDecoration(mVerticalSpace);
+    }
+  }
+
+  private void removeVerticalSpace(RecyclerView view) {
+    if(mVerticalSpace != null) {
+      view.removeItemDecoration(mVerticalSpace);
+      mVerticalSpace = null;
+    }
+  }
   private void initViewForStyle(RecyclerView view, Style style) {
     switch (style) {
-      case ItemDecoration:
-        if(mDivider == null) {
-          mDivider = new DividerItemDecoration(getContext(), R.drawable.recycler_view_divider,
-              view.getContext().getResources().getDimensionPixelSize(R.dimen.vertical_margin));
-        }
-
-        if(mVerticalSpace == null) {
-          mVerticalSpace = new VerticalSpaceItemDecoration(view.getContext().getResources().getDimensionPixelSize(R.dimen.vertical_margin));
-        }
-
-        if(mBackground == null) {
-          mBackground = new BackgroundItemDecoration(view.getContext(),
-              R.drawable.selectable_background);
-        }
-        view.addItemDecoration(mDivider);
-        view.addItemDecoration(mVerticalSpace);
-        view.addItemDecoration(mBackground);
+      case Normal: {
+        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
+        view.setLayoutManager(lm);
+        removeDivider(view);
+        removeBackground(view);
+        removeVerticalSpace(view);
+      }
         break;
-      case Normal:
-        if(mDivider != null) {
-          view.removeItemDecoration(mDivider);
-        }
-        if(mVerticalSpace != null) {
-          view.removeItemDecoration(mVerticalSpace);
-        }
-        if(mBackground != null) {
-          view.removeItemDecoration(mBackground);
-        }
+      case ItemDecoration: {
+        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
+        view.setLayoutManager(lm);
+        addDivider(view);
+        addBackground(view);
+        addVerticalSpace(view);
+      }
+        break;
+      case GridView:
+        GridLayoutManager lm = new GridLayoutManager(view.getContext(), 3);
+        view.setLayoutManager(lm);
+        lm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+          @Override
+          public int getSpanSize(int position) {
+            if(position == 0) return 3;
+            else return 1;
+          }
+        });
+        addBackground(view);
+        addVerticalSpace(view);
+        removeDivider(view);
         break;
       default:
         Log.e(TAG, "unknow style " + style);

@@ -13,6 +13,12 @@
           android:orderInCategory="2"
           app:showAsAction="always"
           android:checkable="true"/>
+
+    <item android:id="@+id/action_grid_view"
+          android:title="G"
+          android:orderInCategory="2"
+          app:showAsAction="always"
+          android:checkable="true"/>
     <item android:id="@+id/action_list_view"
           android:title="L"
           android:orderInCategory="2"

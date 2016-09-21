@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         switchToRecyclerViewDecoration();
         item.setChecked(true);
         return true;
+      case R.id.action_grid_view:
+        switchToGridView();
+        item.setChecked(true);
+        return true;
       case R.id.action_list_view:
         switchToListView();
         item.setChecked(true);
@@ -81,6 +85,19 @@ public class MainActivity extends AppCompatActivity {
       ((RecyclerViewFragment)mCurrentFragment).switchStyle(RecyclerViewFragment.Style.ItemDecoration);
     } else {
       mCurrentFragment = RecyclerViewFragment.newInstance(RecyclerViewFragment.Style.ItemDecoration);
+      getSupportFragmentManager().
+          beginTransaction().
+          replace(R.id.fragment_container, mCurrentFragment, FragmentTag).
+          commit();
+    }
+  }
+
+  private void switchToGridView() {
+    setTitle("GridView");
+    if(mCurrentFragment instanceof RecyclerViewFragment) {
+      ((RecyclerViewFragment)mCurrentFragment).switchStyle(RecyclerViewFragment.Style.GridView);
+    } else {
+      mCurrentFragment = RecyclerViewFragment.newInstance(RecyclerViewFragment.Style.GridView);
       getSupportFragmentManager().
           beginTransaction().
           replace(R.id.fragment_container, mCurrentFragment, FragmentTag).
