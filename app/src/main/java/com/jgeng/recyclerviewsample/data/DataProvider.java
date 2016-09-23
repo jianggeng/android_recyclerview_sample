@@ -20,7 +20,7 @@ public class DataProvider {
   private DataProvider() {
     mUsers = new User[COUNT];
     for(int i=0;i<COUNT;i++) {
-      mUsers[i] = new User("id" + i, "User" +i, "Fairchild 10"+i);
+      mUsers[i] = User.FACTORY.creator.create("id" + i, "User" +i, "Fairchild 10"+i);
     }
   }
   public int getCount() {

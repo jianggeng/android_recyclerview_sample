@@ -61,14 +61,14 @@ public class LVAdapter extends BaseAdapter implements AdapterView.OnItemClickLis
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     if (isSelected(position)) {
-      mProvider.unselect(getItem(position).getId());
+      mProvider.unselect(getItem(position).userId());
     } else {
-      mProvider.select(getItem(position).getId());
+      mProvider.select(getItem(position).userId());
     }
     notifyDataSetChanged();
   }
 
   public boolean isSelected(int position) {
-    return mProvider.isSelected(getItem(position).getId());
+    return mProvider.isSelected(getItem(position).userId());
   }
 }

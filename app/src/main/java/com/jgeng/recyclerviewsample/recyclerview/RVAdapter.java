@@ -60,17 +60,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVViewHolder> {
 
   private void select(int position) {
     if(position == 0) return;
-    mProvider.select(getItem(position).getId());
+    mProvider.select(getItem(position).userId());
   }
 
   private void unselect(int position) {
     if(position == 0) return;
-    mProvider.unselect(getItem(position).getId());
+    mProvider.unselect(getItem(position).userId());
   }
 
   public boolean isSelected(int position) {
     if(position == 0) return false;
-    return mProvider.isSelected(getItem(position).getId());
+    return mProvider.isSelected(getItem(position).userId());
   }
 
   @Override

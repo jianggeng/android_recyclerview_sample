@@ -21,7 +21,7 @@ public class ViewHolderImpl {
 
   public void bind(User user) {
     mUser = user;
-    mNameTv.setText(mUser.getName());
+    mNameTv.setText(mUser.name());
   }
 
   public User getUser() {
