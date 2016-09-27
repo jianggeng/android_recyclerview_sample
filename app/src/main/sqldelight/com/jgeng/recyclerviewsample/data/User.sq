@@ -1,7 +1,8 @@
 CREATE TABLE user (
-  userId TEXT NOT NULL PRIMARY KEY AUTOINCREMENT,
+  userId TEXT NOT NULL PRIMARY KEY,
   name TEXT NOT NULL,
-  address TEXT
+  address TEXT,
+  status INTEGER NOT NULL
 );
 
 -- Further SQL statements are proceeded by an identifier. This will be used to name the constant

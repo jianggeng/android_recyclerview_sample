@@ -2,6 +2,7 @@ package com.jgeng.recyclerviewsample.listview;
 
 import android.view.View;
 
+import com.jgeng.recyclerviewsample.R;
 import com.jgeng.recyclerviewsample.ViewHolderImpl;
 import com.jgeng.recyclerviewsample.data.User;
 
@@ -17,6 +18,11 @@ public class LVViewHolder {
 
   public void bind(User user) {
     mImpl.bind(user);
+    if(user.status() > 0) {
+      mImpl.getItemView().setBackgroundResource(R.color.colorAccent);
+    } else {
+      mImpl.getItemView().setBackground(null);
+    }
   }
 
   public User getUser()  {

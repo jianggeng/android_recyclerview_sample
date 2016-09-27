@@ -34,7 +34,7 @@ public class BackgroundItemDecoration extends RecyclerView.ItemDecoration {
                             child.getRight() + lm.getRightDecorationWidth(child),
                             child.getBottom() + lm.getBottomDecorationHeight(child));
       RVAdapter adapter = (RVAdapter) parent.getAdapter();
-      if (adapter.isSelected(parent.getChildViewHolder(child).getAdapterPosition())) {
+      if (adapter.isSelected(parent.getChildViewHolder(child))) {
         Paint p = new Paint();
         p.setColor(parent.getContext().getResources().getColor(R.color.colorAccent));
         p.setStyle(Paint.Style.FILL);

@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.jgeng.recyclerviewsample.R;
-import com.jgeng.recyclerviewsample.data.DataProvider;
+import com.jgeng.recyclerviewsample.data.UserTableHelper;
 import com.jgeng.recyclerviewsample.data.User;
 
 /**
@@ -17,14 +17,14 @@ import com.jgeng.recyclerviewsample.data.User;
 public class LVAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
   private static final String TAG = "LVAdapter";
 
-  DataProvider mProvider;
+  UserTableHelper mDBHelper;
 
-  public LVAdapter(DataProvider provider) {
-    mProvider = provider;
+  public LVAdapter(UserTableHelper provider) {
+    mDBHelper = provider;
   }
   @Override
   public int getCount() {
-    return mProvider.getCount();
+    return mDBHelper.getCount();
   }
 
   @Override
@@ -34,7 +34,7 @@ public class LVAdapter extends BaseAdapter implements AdapterView.OnItemClickLis
 
   @Override
   public User getItem(int position) {
-    return mProvider.getItem(position);
+    return mDBHelper.getItem(position);
   }
 
   @Override
@@ -50,25 +50,15 @@ public class LVAdapter extends BaseAdapter implements AdapterView.OnItemClickLis
       view.setTag(viewHolder);
     }
     viewHolder.bind(getItem(position));
-    if(isSelected(position)) {
-      view.setBackgroundResource(R.color.colorAccent);
-    } else {
-      view.setBackground(null);
-    }
+
     return view;
   }
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    if (isSelected(position)) {
-      mProvider.unselect(getItem(position).userId());
-    } else {
-      mProvider.select(getItem(position).userId());
-    }
+    LVViewHolder viewHolder = (LVViewHolder)view.getTag();
+    int status = viewHolder.getUser().status() == 0 ? 1:0;
+    mDBHelper.updateStatus(viewHolder.getUser().userId(), status);
     notifyDataSetChanged();
-  }
-
-  public boolean isSelected(int position) {
-    return mProvider.isSelected(getItem(position).userId());
   }
 }

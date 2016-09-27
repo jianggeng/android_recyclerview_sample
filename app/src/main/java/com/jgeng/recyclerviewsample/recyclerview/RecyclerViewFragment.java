@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jgeng.recyclerviewsample.R;
-import com.jgeng.recyclerviewsample.data.DataProvider;
+import com.jgeng.recyclerviewsample.data.UserTableHelper;
 
 /**
  * Created by jgeng on 8/16/16.
@@ -52,7 +52,7 @@ public class RecyclerViewFragment extends Fragment {
     Bundle args = getArguments();
     Style style = Style.valueOf(args.getString(Args.Style));
 
-    mAdapter = new RVAdapter(DataProvider.getInstance(), style);
+    mAdapter = new RVAdapter(new UserTableHelper(inflater.getContext()), style);
     view.setAdapter(mAdapter);
     mAdapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
       @Override

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.jgeng.recyclerviewsample.R;
-import com.jgeng.recyclerviewsample.data.DataProvider;
+import com.jgeng.recyclerviewsample.data.UserTableHelper;
 
 /**
  * Created by jgeng on 8/16/16.
@@ -30,7 +30,7 @@ public class ListViewFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     ListView view = (ListView)inflater.inflate(R.layout.fragment_list_view, container,false);
 
-    final LVAdapter adapter = new LVAdapter(DataProvider.getInstance());
+    final LVAdapter adapter = new LVAdapter(new UserTableHelper(inflater.getContext()));
     view.setAdapter(adapter);
     view.setOnItemClickListener(adapter);
     return view;

@@ -27,4 +27,8 @@ public class ViewHolderImpl {
   public User getUser() {
     return mUser;
   }
+
+  public View getItemView() {
+    return mItemView;
+  }
 }

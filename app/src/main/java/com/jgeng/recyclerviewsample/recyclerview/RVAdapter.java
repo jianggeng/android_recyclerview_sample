@@ -9,13 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jgeng.recyclerviewsample.data.DataProvider;
+import com.jgeng.recyclerviewsample.data.UserTableHelper;
 import com.jgeng.recyclerviewsample.data.User;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by jgeng on 8/16/16.
@@ -37,15 +32,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVViewHolder> {
   }
 
   OnItemClickListener mOnItemClickListener;
-  DataProvider mProvider;
+  UserTableHelper mDBHelper;
   public @ViewType  int mContentViewType;
-  public RVAdapter(DataProvider provider, RecyclerViewFragment.Style style) {
-    mProvider = provider;
+  public RVAdapter(UserTableHelper provider, RecyclerViewFragment.Style style) {
+    mDBHelper = provider;
     mContentViewType = styleToViewType(style);
   }
   @Override
   public int getItemCount() {
-    return mProvider.getCount() + 1;
+    return mDBHelper.getCount() + 1;
   }
 
   @Override
@@ -55,22 +50,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVViewHolder> {
 
   private User getItem(int position) {
     if(position == 0) return null;
-    return mProvider.getItem(position -1);
+    return mDBHelper.getItem(position -1);
   }
 
-  private void select(int position) {
-    if(position == 0) return;
-    mProvider.select(getItem(position).userId());
-  }
+  public boolean isSelected(RecyclerView.ViewHolder viewHolder) {
+    RVViewHolder vh = (RVViewHolder) viewHolder;
 
-  private void unselect(int position) {
-    if(position == 0) return;
-    mProvider.unselect(getItem(position).userId());
-  }
-
-  public boolean isSelected(int position) {
-    if(position == 0) return false;
-    return mProvider.isSelected(getItem(position).userId());
+    return vh.getUser() != null && vh.getUser().status() > 0;
   }
 
   @Override
@@ -109,7 +95,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVViewHolder> {
     if (position == 0) return;
     holder.bind(getItem(position));
     if (holder.getItemViewType() == ViewType.NORMAL) {
-       if (isSelected(position)) {
+       if (holder.getUser().status() > 0) {
          holder.itemView.setBackgroundResource(R.color.colorAccent);
        } else {
          holder.itemView.setBackgroundResource(R.drawable.selectable_background);
@@ -125,14 +111,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVViewHolder> {
     @Override
     public void onItemClick(RVViewHolder viewHolder) {
       Log.i(TAG, "onItemClick " + viewHolder.getAdapterPosition());
-      int position = viewHolder.getAdapterPosition();
-      if (position > 0) {
-        if (isSelected(position)) {
-          unselect(position);
-        } else {
-          select(position);
-        }
-        notifyItemChanged(position);
+      if (viewHolder.getUser() != null) {
+        int status = viewHolder.getUser().status() == 0 ? 1 : 0;
+        mDBHelper.updateStatus(viewHolder.getUser().userId(), status);
+        notifyItemChanged(viewHolder.getAdapterPosition());
       }
       if(mOnItemClickListener != null) {
         mOnItemClickListener.onItemClick((RecyclerView)viewHolder.itemView.getParent(), viewHolder.itemView, viewHolder.getAdapterPosition(), viewHolder.getItemId());
